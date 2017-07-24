@@ -1,6 +1,11 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": ""
+    "AzureWebJobsStorage": "",
+    "FUNCTION_APP_NAME": "",
+    "SUBSCRIPTION_ID": "",
+    "CLIENT_ID": "",
+    "CLIENT_SECRET": "",
+    "DOMAIN": ""
   }
 }

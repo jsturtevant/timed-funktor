@@ -1,17 +1,38 @@
-module.exports = function (context, req) {
-    var statusCode = 400;
-    var responseBody = "Invalid request object";
+const helpers = require('./../helpers/');
 
-    if (typeof req.body != 'undefined' && typeof req.body == 'object') {
-        statusCode = 201;
-        context.bindings.outTable = req.body;
-        responseBody = "Table Storage Created";
+module.exports = function (context, req) {
+    const azFunc = helpers.functionFactory();
+
+    if (typeof req.body == 'undefined' && typeof req.body != 'object') {
+        statusCode = 400;
+        responseBody = "Invalid Request";
+        context.done();
+        return;
     }
 
-    context.res = {
-        status: statusCode,
-        body: responseBody
-    };
+    const functee = "./../template/index.js";
+    const schedule = "0 */1 * * * *";
+    azFunc.deployFunction('functionname',
+        `module.exports = require(${functee})`, [
+            {
+                "name": "myTimer",
+                "type": "timerTrigger",
+                "direction": "in",
+                "schedule": schedule
+            }
+    ])
+    .then(func => {
+        context.log(func);
 
-    context.done();
+        context.res = {
+            status: 202,
+            body: func
+        };
+
+        context.done();
+    })
+    .catch(err => {
+        context.log(err);
+        context.done();
+    });
 };
