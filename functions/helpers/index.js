@@ -9,5 +9,13 @@ module.exports = {
                 clientSecret: process.env.CLIENT_SECRET,
                 domain: process.env.AD_DOMAIN
             });
+    },
+
+    findFunctionsByType = function(type, list) {
+        return list.filter(func => {
+            const config = func.properties.config;
+            const typeFilter = config.bindings.filter(binding => binding.type === type);
+            return (typeFilter.length > 0);
+        };
     }
-}
+};
