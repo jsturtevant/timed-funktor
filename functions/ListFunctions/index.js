@@ -4,20 +4,21 @@ module.exports = function (context, req) {
   const azFunctions = helpers.functionFactory();
 
   azFunctions.listFunctions()
-   .then(functionList => {
-     // fish out only timed functions
-     const timerTriggers = helpers.findFunctionsByType('timerTrigger', functionList);
+    .then(functionList => {
+      // fish out only timed functions
+      const timerTriggers = helpers.findFunctionsByType('timerTrigger', functionList);
 
-     context.res = {
-       body: JSON.stringify(timerTriggers);
-     };
-  }).catch(reason => {
-    context.res = {
-      status: 500,
-      error: reason.message
-    };
-  });
+      context.res = {
+        body: JSON.stringify(timerTriggers)
+      };
 
-  context.log('JavaScript HTTP trigger function processed a request.');
+      context.done();
+    }).catch(reason => {
+      context.res = {
+        status: 500,
+        error: reason.message
+      };
+      context.done();
+    });
+}
 
-  context.done();
