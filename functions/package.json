@@ -9,6 +9,6 @@
   "author": "James Sturtevant & Suz Hinton",
   "license": "MIT",
   "dependencies": {
-  "azure-functions": "^1.0.2"
+  "azure-functions": "jsturtevant/azure-functions-node#errormessage"
   }
 }
