@@ -1,1 +1,1 @@
-module.exports = require("./../template/index.js")
+module.exports = require("./../template")
