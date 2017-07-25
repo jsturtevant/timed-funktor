@@ -25,6 +25,9 @@ module.exports = function (context, req) {
       context.log(func);
 
       context.res = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         status: 202,
         body: func
       };

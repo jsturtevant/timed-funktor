@@ -9,12 +9,18 @@ module.exports = function (context, req) {
       const timerTriggers = helpers.findFunctionsByType('timerTrigger', functionList);
 
       context.res = {
-        body: JSON.stringify(timerTriggers)
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: timerTriggers
       };
 
       context.done();
     }).catch(reason => {
       context.res = {
+        headers: {
+          'Content-Type': 'application/json'
+        },
         status: 500,
         error: reason.message
       };
