@@ -11,7 +11,7 @@ Test local sample app:
 You will need to create a service principal to access your Function app.  Create a new service principle:
 
 ```bash
-az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->/providers/Microsoft.Web/sites/<function-app-name>/
+az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->/providers/Microsoft.Web/sites/<function-app-name>  --role Owner
 ```
 
 Your output will look like: 
