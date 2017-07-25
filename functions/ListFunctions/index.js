@@ -18,7 +18,7 @@ module.exports = function (context, req) {
         status: 500,
         error: reason.message
       };
-      context.done();
+      context.done( );
     });
 }
 
