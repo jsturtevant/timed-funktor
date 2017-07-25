@@ -59,3 +59,7 @@ typings/
 
 # azure function local settings
 functions/local.settings.json
+
+# frontend bundled javascript dir
+frontend/js/*.js
+
