@@ -8,10 +8,10 @@ Test local sample app:
     - func run template-functor
 
 ## Application settings
-You will need to create a service principal to access your Function app.  Create a new service principle:
+You will need to create a service principal to access your Function app at the resource group level.  Create a new service principle:
 
 ```bash
-az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->/providers/Microsoft.Web/sites/<function-app-name>  --role Owner
+az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->  --role Owner
 ```
 
 Your output will look like: 
