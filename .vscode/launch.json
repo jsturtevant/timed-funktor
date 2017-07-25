@@ -6,6 +6,15 @@
       "type": "node",
       "request": "attach",
       "port": 5858
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Tests",
+      "program": "${workspaceRoot}\\tests\\test-runner.js",
+       "args": [
+            "./tests" //run all the tests
+      ]
     }
   ]
 }

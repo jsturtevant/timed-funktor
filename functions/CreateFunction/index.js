@@ -1,16 +1,14 @@
-const helpers = require('./../helpers/');
+const helpers = require('./../helpers/index.js');
 
 module.exports = function (context, req) {
   const azFunc = helpers.functionFactory();
 
-  // if (typeof req.body == 'undefined' && typeof req.body != 'object') {
-  //   context.res = {
-  //       status: 400,
-  //       error: "invalid response"
-  //     };
-  //   context.done();
-  //   return;
-  // }
+  if (!req.body.templateName || validator.isEmpty(req.body.templateName)){
+        context.log("Invalid response");
+        context.res = { status: 400, body: 'must pass template' }; 
+        context.done();
+        return;
+  }
 
   const functee = "./../template/index.js";
   const schedule = "0 */1 * * * *";

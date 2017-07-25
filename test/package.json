@@ -1,0 +1,19 @@
+{
+  "name": "functions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/tape *.test.js"
+  },
+  "author": "James Sturtevant & Suz Hinton",
+  "license": "MIT",
+  "dependencies": {
+    "azure-functions": "jsturtevant/azure-functions-node#errormessage"
+  },
+  "devDependencies": {
+    "azure-functions-node-harness": "github:jsturtevant/azure-functions-node-harness#dev",
+    "tape": "^4.6.3",
+    "testdouble": "^3.2.1"
+  }
+}
