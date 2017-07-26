@@ -15,7 +15,7 @@ test('Create functions Tests', function (group) {
                 "templateName": ""
             }
         }).then(context => {
-            t.equal(400, context.res.status);
+            t.equal(context.res.status, 400);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
@@ -29,7 +29,7 @@ test('Create functions Tests', function (group) {
                 "templateName": null
             }
         }).then(context => {
-            t.equal(400, context.res.status);
+            t.equal(context.res.status, 400);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
@@ -44,7 +44,7 @@ test('Create functions Tests', function (group) {
                 "schedule": ""
             }
         }).then(context => {
-            t.equal(400, context.res.status);
+            t.equal(context.res.status, 400);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
@@ -59,7 +59,7 @@ test('Create functions Tests', function (group) {
                 "schedule": null
             }
         }).then(context => {
-            t.equal(400, context.res.status);
+            t.equal(context.res.status, 400);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
@@ -74,7 +74,7 @@ test('Create functions Tests', function (group) {
                 "schedule": "this is not valid cron string"
             }
         }).then(context => {
-            t.equal(400, context.res.status);
+            t.equal(context.res.status, 400);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
