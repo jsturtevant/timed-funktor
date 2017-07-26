@@ -1,9 +1,10 @@
 const helpers = require('./../helpers/index.js');
 const validator = require('validator');
 const parser = require('cron-parser');
+const handlebars = require('handlebars');
 
 
-module.exports = function (context, req) {
+module.exports = function (context, req, functorTemplate) {
   const azFunc = helpers.functionFactory();
 
   if (!req.body.templateName || validator.isEmpty(req.body.templateName)){
@@ -29,17 +30,10 @@ module.exports = function (context, req) {
     return;
   }
 
-  const functee = `"./../template-${req.body.templateName}"`;
-
-  azFunc.deployFunction(req.body.templateName,
-    `module.exports = require(${functee})`, [
-      {
-        "name": req.body.templateName,
-        "type": "timerTrigger",
-        "direction": "in",
-        "schedule": req.body.schedule
-      }
-    ])
+  const functionScript = createFunctionScript(req.body.templateName, functorTemplate);
+  const triggerBinding = createTriggerBinding(req.body.templateName, req.body.schedule);
+  
+  azFunc.deployFunction(req.body.templateName, functionScript, triggerBinding)
     .then(func => {
       context.log(func);
 
@@ -67,3 +61,20 @@ module.exports = function (context, req) {
       context.done();
     });
 };
+
+function createTriggerBinding(templateName, schedule){
+  return [
+      {
+        "name": templateName,
+        "type": "timerTrigger",
+        "direction": "in",
+        "schedule": schedule
+      }
+    ];
+}
+
+function createFunctionScript(templateName,functorTemplate){
+  const template = handlebars.compile(functorTemplate);
+  const functee = `./../template-${templateName}`;  
+  return template({templateName: functee});
+}

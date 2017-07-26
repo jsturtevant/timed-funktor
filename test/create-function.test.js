@@ -88,11 +88,15 @@ test('Create functions Tests', function (group) {
         td.when(deployFunc(td.matchers.anything(), td.matchers.anything(),td.matchers.anything())).thenResolve({});
 
         funcToTest.invokeHttpTrigger({
-            reqBody: {
-                "templateName": "sample",
-                "schedule": "0 */2 * * * *"
-            }
-        }).then(context => {
+              reqBody: {
+                  "templateName": "sample",
+                  "schedule": "0 */2 * * * *"
+              }
+            },
+            { 
+              functorTemplate: 'module.exports = require("{{templateName}}")'
+            }  
+        ).then(context => {
             t.isNotEqual(context.res.status, 400)
             td.verify(deployFunc(`sample`, 
                 `module.exports = require("./../template-sample")`,
@@ -104,7 +108,7 @@ test('Create functions Tests', function (group) {
                         "schedule": "0 */2 * * * *"
                     }
                 ]));
-            t.pass("should resolve");
+            t.equal(context.res.status, 202);
         }).catch(err => {
             t.fail(`something went wrong: ${err}`);
         });
