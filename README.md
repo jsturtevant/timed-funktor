@@ -2,13 +2,26 @@
 Being Funky
 
 # Getting Started
-Test local sample app:
+Test local sample app with monitoring app:
     - cd test\sample
     - func azure functionapp fetch-app-settings <your func name>
-    - func run template-functor
+    - func host start
 
 ## Application settings
 You will need to create a service principal to access your Function app at the resource group level.  Create a new service principle:
+
+```bash
+az account set --subscription <your-subscription-id>
+
+az login
+```
+
+```bash
+az storage account create --name <storage_name> --location westeurope --resource-group myResourceGroup --sku Standard_LRS
+az functionapp create --name funkDemo2 --storage-account funkstorage  --resource-group demoTest2 --consumption-plan-location eastus2
+```
+
+If you see this error `Sequence contains no elements` try logging out and login.
 
 ```bash
 az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->  --role Owner
