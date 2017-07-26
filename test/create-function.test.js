@@ -7,6 +7,11 @@ var helpers = td.replace('../functions/helpers/index.js');
 test('Create functions Tests', function (group) {
     var funcToTest = funcHarness('CreateFunction', { dirname: '../functions' });
 
+    const deployFunc = td.function();
+    td.when(helpers.functionFactory()).thenReturn({deployFunction: deployFunc});
+    td.when(deployFunc(td.matchers.anything(), td.matchers.anything(),td.matchers.anything())).thenResolve({});
+
+
     group.test('if templateName is empty then return status 400', function (t) {
         t.plan(1);
 
@@ -83,10 +88,6 @@ test('Create functions Tests', function (group) {
     group.test('validate that deploy func is called correctly', function (t) {
         t.plan(2);
 
-        const deployFunc = td.function();
-        td.when(helpers.functionFactory()).thenReturn({deployFunction: deployFunc});
-        td.when(deployFunc(td.matchers.anything(), td.matchers.anything(),td.matchers.anything())).thenResolve({});
-
         funcToTest.invokeHttpTrigger({
               reqBody: {
                   "templateName": "sample",
@@ -114,5 +115,85 @@ test('Create functions Tests', function (group) {
         });
     });
 
+    group.test('can pass configuration to function', function (t) {
+        t.plan(2);
+
+        const config = {
+                    "key1": "value1",
+                    "key2": 3
+                  };
+
+        funcToTest.invokeHttpTrigger({
+              reqBody: {
+                  "templateName": "sample",
+                  "schedule": "0 */2 * * * *",
+                  "config": config
+              }
+            },
+            { 
+              functorTemplate: getCofigTemplate()
+            }  
+        ).then(context => {
+            t.isNotEqual(context.res.status, 400)
+            td.verify(deployFunc(`sample`, 
+                getResult("./../template-sample",config) ,
+                [
+                    {
+                        "name": "sample",
+                        "type": "timerTrigger",
+                        "direction": "in",
+                        "schedule": "0 */2 * * * *"
+                    }
+                ]));
+            t.equal(context.res.status, 202);
+        }).catch(err => {
+            t.fail(`something went wrong: ${err}`);
+        });
+    });
+
+    group.test('no configuration does not fail', function (t) {
+        t.plan(2);
+
+        funcToTest.invokeHttpTrigger({
+              reqBody: {
+                  "templateName": "sample",
+                  "schedule": "0 */2 * * * *"
+              }
+            },
+            { 
+              functorTemplate: getCofigTemplate()
+            }  
+        ).then(context => {
+            t.isNotEqual(context.res.status, 400)
+            td.verify(deployFunc(`sample`, 
+                getResult("./../template-sample",{}) ,
+                [
+                    {
+                        "name": "sample",
+                        "type": "timerTrigger",
+                        "direction": "in",
+                        "schedule": "0 */2 * * * *"
+                    }
+                ]));
+            t.equal(context.res.status, 202);
+        }).catch(err => {
+            t.fail(`something went wrong: ${err}`);
+        });
+    });
+
     group.end();
 });
+
+function getCofigTemplate(){
+  return `module.exports = function (context, myTimer) {
+const functee = require("{{templateName}}");
+functee(context, myTimer, {{{config}}});
+};`
+}
+
+function getResult(templateName, config){
+  return `module.exports = function (context, myTimer) {
+const functee = require("${templateName}");
+functee(context, myTimer, ${JSON.stringify(config)});
+};`
+}

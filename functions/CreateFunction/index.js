@@ -30,7 +30,7 @@ module.exports = function (context, req, functorTemplate) {
     return;
   }
 
-  const functionScript = createFunctionScript(req.body.templateName, functorTemplate);
+  const functionScript = createFunctionScript(req.body.templateName, functorTemplate, req.body.config);
   const triggerBinding = createTriggerBinding(req.body.templateName, req.body.schedule);
   
   azFunc.deployFunction(req.body.templateName, functionScript, triggerBinding)
@@ -73,8 +73,8 @@ function createTriggerBinding(templateName, schedule){
     ];
 }
 
-function createFunctionScript(templateName,functorTemplate){
+function createFunctionScript(templateName,functorTemplate, config = {}){
   const template = handlebars.compile(functorTemplate);
   const functee = `./../template-${templateName}`;  
-  return template({templateName: functee});
+  return template({templateName: functee, config: JSON.stringify(config)});
 }
