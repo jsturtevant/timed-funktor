@@ -1,1 +1,1 @@
-module.exports = require("./../template")
+module.exports = require("./../templates/hellotimer")
