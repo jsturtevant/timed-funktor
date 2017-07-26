@@ -1,4 +1,7 @@
 const helpers = require('./../helpers/index.js');
+const validator = require('validator');
+const parser = require('cron-parser');
+
 
 module.exports = function (context, req) {
   const azFunc = helpers.functionFactory();
@@ -10,15 +13,31 @@ module.exports = function (context, req) {
         return;
   }
 
-  const functee = "./../template/index.js";
-  const schedule = "0 */1 * * * *";
-  azFunc.deployFunction('newtimer',
+  if (!req.body.schedule || validator.isEmpty(req.body.schedule)){
+    context.log("Invalid response");
+    context.res = { status: 400, body: 'must pass schedule' }; 
+    context.done();
+    return;
+  }
+
+  try{
+    var interval = parser.parseExpression(req.body.schedule);
+  }catch(err){
+    context.log("Invalid response");
+    context.res = { status: 400, body: 'must valid cron schedule' }; 
+    context.done();
+    return;
+  }
+
+  const functee = `"./../template-${req.body.templateName}"`;
+
+  azFunc.deployFunction(req.body.templateName,
     `module.exports = require(${functee})`, [
       {
-        "name": "newtimer",
+        "name": req.body.templateName,
         "type": "timerTrigger",
         "direction": "in",
-        "schedule": schedule
+        "schedule": req.body.schedule
       }
     ])
     .then(func => {

@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "James Sturtevant & Suz Hinton",
   "license": "MIT",
   "dependencies": {
-  "azure-functions": "jsturtevant/azure-functions-node#errormessage"
+    "azure-functions": "jsturtevant/azure-functions-node#errormessage",
+    "cron-parser": "^2.4.1",
+    "validator": "^8.0.0"
   }
 }
