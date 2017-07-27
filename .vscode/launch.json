@@ -11,10 +11,11 @@
       "type": "node",
       "request": "launch",
       "name": "Run Tests",
-      "program": "${workspaceRoot}\\tests\\test-runner.js",
-       "args": [
-            "./tests" //run all the tests
+      "program": "${workspaceRoot}\\test\\test-runner.js",
+      "args": [
+            "./test" //run all the tests
       ]
+      
     }
   ]
 }

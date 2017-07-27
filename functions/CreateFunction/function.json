@@ -1,19 +1,26 @@
 {
   "bindings": [
-  {
-    "type": "httpTrigger",
-    "direction": "in",
-    "name": "req",
-    "route": "functions",
-    "methods": [
-    "post"
-    ]
-  },
-  {
-    "type": "http",
-    "direction": "out",
-    "name": "res"
-  }
+    {
+      "type": "httpTrigger",
+      "direction": "in",
+      "name": "req",
+      "route": "functions",
+      "methods": [
+        "post"
+      ]
+    },
+    {
+      "name": "functorTemplate",
+      "type": "blob",
+      "direction": "in", 
+      "path": "funktor/functorConfigTemplate.txt",
+      "connection": "AzureWebJobsStorage"
+    },
+    {
+      "type": "http",
+      "direction": "out",
+      "name": "res"
+    }
   ],
   "disabled": false
 }

@@ -15,7 +15,7 @@ var getAllFilesFromFolder = function(dir) {
         file = dir+'/'+file;
         var stat = fs.statSync(file);
 
-        if (stat && stat.isDirectory()) {
+        if (stat && stat.isDirectory() && !file.includes('node_modules')) {
             results = results.concat(getAllFilesFromFolder(file))
         } else results.push(file);
 

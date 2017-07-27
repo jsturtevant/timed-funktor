@@ -9,7 +9,8 @@
   "author": "James Sturtevant & Suz Hinton",
   "license": "MIT",
   "dependencies": {
-    "azure-functions": "jsturtevant/azure-functions-node#errormessage"
+    "azure-functions": "jsturtevant/azure-functions-node#errormessage",
+    "validator": "^8.0.0"
   },
   "devDependencies": {
     "azure-functions-node-harness": "github:jsturtevant/azure-functions-node-harness#dev",
