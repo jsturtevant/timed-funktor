@@ -10,10 +10,13 @@ export default (state = initialState, action) => {
     case 'LOADING_FUNCTION_LIST':
      return Object.assign({}, state, {loadingFunctionList: true}); 
     case 'RECEIVE_FUNCTION_LIST':
-      const {functionList} = action;
+      let {functionList} = action;
       return Object.assign({}, state, {functionList, loadingFunctionList: false, loadingTemplateList: false});
     case 'LOADING_TEMPLATE_LIST':
-     return Object.assign({}, state, {loadingTemplateList: true}); 
+      return Object.assign({}, state, {loadingTemplateList: true});
+    case 'DELETE_FUNCTION':
+      let newFunctionList =  state.functionList.filter(x => x.name != action.name);
+      return Object.assign({}, state, {functionList: newFunctionList});
     default:
       return state;
   }
