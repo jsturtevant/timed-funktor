@@ -8,10 +8,10 @@ module.exports = function (context, req, functorTemplate) {
   const azFunc = helpers.functionFactory();
 
   if (!req.body.templateName || validator.isEmpty(req.body.templateName)){
-        context.log("Invalid response");
-        context.res = { status: 400, body: 'must pass template' }; 
-        context.done();
-        return;
+    context.log("Invalid response");
+    context.res = { status: 400, body: 'must pass template' }; 
+    context.done();
+    return;
   }
 
   if (!req.body.schedule || validator.isEmpty(req.body.schedule)){
