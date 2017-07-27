@@ -11,6 +11,18 @@ test('Create functions Tests', function (group) {
   td.when(helpers.functionFactory()).thenReturn({ deployFunction: deployFunc });
   td.when(deployFunc(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenResolve({});
 
+  group.test('if templateName is empty then return status 400', function (t) {
+    t.plan(2);
+
+    funcToTest.invokeHttpTrigger({
+      reqBody: null
+    }).then(context => {
+      t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass body");
+    }).catch(err => {
+      t.fail(`something went wrong: ${err}`);
+    });
+  });
 
   group.test('if templateName is empty then return status 400', function (t) {
     t.plan(1);

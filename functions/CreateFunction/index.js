@@ -7,6 +7,12 @@ const handlebars = require('handlebars');
 module.exports = function (context, req, functorTemplate) {
   const azFunc = helpers.functionFactory();
 
+  if (!req.body){
+    context.res = { status: 400, body: 'must pass body' }; 
+    context.done();
+    return;
+  }
+
   if (!req.body.templateName || validator.isEmpty(req.body.templateName)){
     context.log("Invalid response");
     context.res = { status: 400, body: 'must pass template' }; 
