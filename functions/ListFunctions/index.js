@@ -6,13 +6,16 @@ module.exports = function (context, req) {
   azFunctions.listFunctions()
     .then(functionList => {
       // fish out only timed functions
-      const timerTriggers = helpers.findFunctionsByType('timerTrigger', functionList);
+      // const timerTriggers = helpers.findFunctionsByType('timerTrigger', functionList);
 
       context.res = {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Origin": '*',
+          "Access-Control-Allow-Methods": "GET"
         },
-        body: timerTriggers
+        body: functionList 
       };
 
       context.done();
