@@ -4,6 +4,9 @@ import { LoadingMessage } from '../common';
 
 const filterByTimerType = (functionList) => {
   return functionList.filter(func => {
+      if (!func.properties.config.bindings){
+        return false;
+      }
       const filterTimerBindings = func.properties.config.bindings.filter(binding => {
         return binding.type === 'timerTrigger';
       });
