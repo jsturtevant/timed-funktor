@@ -13,7 +13,7 @@
       "name": "functorTemplate",
       "type": "blob",
       "direction": "in", 
-      "path": "timed/functorConfigTemplate.txt",
+      "path": "funktor/functorConfigTemplate.txt",
       "connection": "AzureWebJobsStorage"
     },
     {
