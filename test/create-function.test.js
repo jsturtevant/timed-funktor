@@ -156,6 +156,7 @@ test('Create functions Tests', function (group) {
       t.isNotEqual(context.res.status, 400)
       td.verify(deployFunc(`sample`,
         getResult("./../template-sample", {}),
+         getBindingResult()
       ));
       t.equal(context.res.status, 202);
     }).catch(err => {
