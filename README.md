@@ -8,22 +8,17 @@ In order to run the sample you will need to download the [Azure](https://azure.g
 
 ## Setting up Subscription
 
-```bash
-az account set --subscription <your-subscription-id>
+- `az account set --subscription <your-subscription-id>`
 
-az login
-```
+- `az login`
 
 ## Create Azure Storage Account and Azure Function
 
-```bash
-az storage account create --name <storage_name> --location westeurope --resource-group myResourceGroup --sku Standard_LRS
+- `az storage account create --name <storage_name> --location westeurope --resource-group myResourceGroup --sku Standard_LRS`
 
-az functionapp create --name funkDemo2 --storage-account funkstorage  --resource-group demoTest2 --consumption-plan-location eastus2
-```
+- `az functionapp create --name funkDemo2 --storage-account funkstorage  --resource-group demoTest2 --consumption-plan-location eastus2`
 
 If at any point you see this error: `Sequence contains no elements` try logging out and logging in using `az func logout` and then `az func login` and enter your Azure credentials..
-
 
 ## Update Application settings
 You will need to create a service principal to access your Function app at the resource group level.  Create a new service principle:
