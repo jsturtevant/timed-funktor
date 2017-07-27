@@ -1,14 +1,12 @@
 # Introduction 
-Being Funky
+This tutorial will walk through how to dynamically create and delete Azure Functions from an Azure Subscription.
 
 # Getting Started
-Test local sample app with monitoring app:
-    - cd test\sample
-    - func azure functionapp fetch-app-settings <your func name>
-    - func host start
+In order to run the sample you will need to download the [Azure](https://azure.github.io/projects/clis/) and [Azure Function](https://github.com/Azure/azure-functions-cli) CLIs. To install these run the following lines of code:
+- `curl -L https://aka.ms/InstallAzureCli | bash`
+- `npm i -g azure-functions-core-tools`
 
-## Application settings
-You will need to create a service principal to access your Function app at the resource group level.  Create a new service principle:
+## Setting up Subscription
 
 ```bash
 az account set --subscription <your-subscription-id>
@@ -16,18 +14,25 @@ az account set --subscription <your-subscription-id>
 az login
 ```
 
+## Create Azure Storage Account and Azure Function
+
 ```bash
 az storage account create --name <storage_name> --location westeurope --resource-group myResourceGroup --sku Standard_LRS
+
 az functionapp create --name funkDemo2 --storage-account funkstorage  --resource-group demoTest2 --consumption-plan-location eastus2
 ```
 
-If you see this error `Sequence contains no elements` try logging out and login.
+If at any point you see this error: `Sequence contains no elements` try logging out and logging in using `az func logout` and then `az func login` and enter your Azure credentials..
+
+
+## Update Application settings
+You will need to create a service principal to access your Function app at the resource group level.  Create a new service principle:
 
 ```bash
 az ad sp create-for-rbac -n <name-of-service-principal> --scopes /subscriptions/<your-subscription-id>/resourceGroups/<your-resource-group->  --role Owner
 ```
 
-Your output will look like: 
+Your output will look like:
 
 ```
 {
@@ -55,6 +60,12 @@ Enter the following credentials in `local.settings.json`:
 + `CLIENT_ID` - the application id of the service principal when it was created
 + `CLIENT_SECRET` - the password property returned to you when the service principal was created
 + `DOMAIN` - the tenant property returned to you when the service principal was created
+
+
+### Run the test sample
+- `cd test\sample`
+- `func azure functionapp fetch-app-settings <your func name>`
+- `func host start`
 
 # Build and Test
 
