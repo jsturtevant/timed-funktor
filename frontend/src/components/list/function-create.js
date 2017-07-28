@@ -24,17 +24,17 @@ const handleSubmit = (e) => (dispatch) => {
 const CreateFunction = (state) => {
   const { createFormShowStyle, templateName, createNewFunction } = state; 
   return (
-   <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFunction(e)}>
-     <label>Name</label>
-     <input type="text" name="name" />
+   <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFunction(e)} className="border-silver border p3 sm-col-5">
+     <label className="block mb1">Name</label>
+     <input type="text" name="name" className="field block mb2 col-12 p1"/>
 
-     <label>template</label>
-     <input type="text" value={templateName} name="template"/>
+     <label className="block mb1">Template</label>
+     <input type="text" value={templateName} name="template" className="field block mb2 col-12 p1"/>
 
-     <label>Schedule</label>
-     <input type="text"  name="schedule"/>
+     <label className="block mb1">Schedule</label>
+     <input type="text"  name="schedule" className="field block mb2 col-12 p1"/>
       
-      <input type="submit" value="Create"></input>
+      <input type="submit" value="Create" className="block rounded p1 border-silver" />
 
      </form>
   )

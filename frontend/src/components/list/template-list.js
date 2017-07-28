@@ -22,10 +22,12 @@ const templateFunctions = (functionList, showCreate) => {
       const shortname = name.split('/').pop();
 
       return (
-        <li key={shortname}>
+        <li className="pl1 pr1 pt2 pb2 border-bottom border-silver" key={shortname}>
           {shortname}
-          <button onClick={() => onShowCode(func)}>show code</button>
-          <button onClick={() => showCreate(name)}>create</button>
+          <span className="right">
+            <button className="pr2 pl2 mr1 rounded" onClick={() => onShowCode(func)}>show code</button>
+            <button className="pr2 pl2 mr1 rounded" onClick={() => showCreate(name)}>create</button>
+          </span>
           <FunctionCode />
         </li>
       )
@@ -41,7 +43,7 @@ const TemplateFunctionList = (state) => {
 
   return (
     <div>
-      <ul id="templateList">
+      <ul id="templateList" className="list-reset max-width-3">
         {children}
       </ul>
       <CreateFunction />

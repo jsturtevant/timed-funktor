@@ -15,13 +15,18 @@ export const getInitialData  = () => (dispatch) => {
 // component
 export const App = () => {
   return (
-    <div>
+    <div className="m1">
       <h1>Timed Funktors App</h1>
-      <h2>Functions</h2>
-      <TimerFunctionList  />
 
-      <h2>Templates</h2>
-      <TemplateFunctionList />
+      <div className="mb4 mt3">
+        <h2>Functions</h2>
+        <TimerFunctionList  />
+      </div>
+      
+      <div>
+        <h2>Templates</h2>
+        <TemplateFunctionList />
+      </div>
     </div>
   )
 };

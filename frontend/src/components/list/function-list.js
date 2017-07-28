@@ -43,11 +43,14 @@ const timerFunctions = (functionList, deleteFn) => {
       const schedule = getTimerFunctionSchedule(func);
 
       return (
-        <li key={shortname}>
-          {shortname} - {schedule}
-          <button>start</button>
-          <button>stop</button>
-          <button onClick={() => deleteFn(name)}>delete</button>
+        <li className="pl1 pr1 pt2 pb2 border-bottom border-silver" key={shortname}>
+          <button onClick={() => deleteFn(name)} aria-label="delete" className="rounded mr1">x</button>
+          {shortname}
+          <span className="right">
+            <span className="mr3"> {schedule}</span>
+            <button className="border-green bg-green bg-lighten-4 pr2 pl2 mr1 rounded">start</button>
+            <button className="border-yellow bg-yellow bg-lighten-4 pr2 pl2 mr1 rounded">stop</button>
+          </span>
         </li>
       )
     });
@@ -62,7 +65,7 @@ const TimerFunctionList = (state) => {
   if (loadingFunctionList) return (<LoadingMessage />);
 
   return (
-    <ul id="functionList">
+    <ul id="functionList" className="list-reset max-width-3">
       {children}
     </ul>
   );
