@@ -2,7 +2,7 @@ const helpers = require('./../helpers/index.js');
 
 module.exports = function (context, req) {
     const azFunc = helpers.functionFactory();
-    azFunc.enableFunction = 
+    azFunc.disableFunction = 
         function(name){
             var requestUrl = this._buildBaseUrl();
             requestUrl = requestUrl + '/providers/Microsoft.Web/sites/' + this.functionAppName + '/functions/' + name;
@@ -33,7 +33,7 @@ module.exports = function (context, req) {
     // const name = req.body.funcName;
     const name = 'HttpTriggerJS1';
 
-    azFunc.enableFunction(name)
+    azFunc.disableFunction(name)
     .then(func => {
 
       context.log(func);
