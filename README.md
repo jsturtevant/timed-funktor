@@ -1,5 +1,7 @@
 # Introduction 
-This tutorial will walk through how to dynamically create and delete Azure Functions from an Azure Subscription.
+Manage, Monitor and dynamically Create scheduled Azure Functions.
+
+![funktor screenshot](/assets/timed-funktor.png)
 
 # Getting Started
 In order to run the sample you will need to download the [Azure](https://azure.github.io/projects/clis/) and [Azure Function](https://github.com/Azure/azure-functions-cli) CLIs. To install these run the following lines of code:
