@@ -2,7 +2,7 @@ const helpers = require('./../helpers/index.js');
 
 module.exports = function (context, req) {
     const azFunc = helpers.functionFactory();
-    azFunc.enableFunction = 
+    azFunc.getSecret = 
         function(name){
             var requestUrl = this._buildBaseUrl();
             requestUrl = requestUrl + '/providers/Microsoft.Web/sites/' + this.functionAppName + '/functions/' + name + '/listsecrets';
@@ -16,7 +16,7 @@ module.exports = function (context, req) {
 
     azFunc.enableFunction(name)
     .then(func => {
-      trigger = func.trigger_url;
+      key = func.key;
       context.log(trigger);
 
       context.res = {
@@ -24,7 +24,7 @@ module.exports = function (context, req) {
           'Content-Type': 'application/json'
         },
         status: 202,
-        body: trigger
+        body: key
       };
 
       context.done();
