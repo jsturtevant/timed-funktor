@@ -58,6 +58,13 @@ Enter the following credentials in `local.settings.json`:
 + `CLIENT_SECRET` - the password property returned to you when the service principal was created
 + `DOMAIN` - the tenant property returned to you when the service principal was created
 
+## Upload funktor file
+There is a template file that is used to dynamically create the Functions.  The app expects the file to be in your Function app storage as `funktor/functorConfigTemplate.txt` where funktor is the container name.  You should be logged into the cli subscription from the previous steps, then do:
+
+```bash
+az storage container create --name funktor
+az storage blob upload --container-name funktor --file './templates/functorConfigTemplate.txt' --name functorConfigTemplate.txt
+```
 
 ### Run the test sample
 - `cd test\sample`
