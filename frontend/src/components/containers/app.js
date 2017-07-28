@@ -1,7 +1,7 @@
 import React from 'react';
-import TimerFunctionList  from './list/function-list';
-import TemplateFunctionList from './list/template-list';
-import {getFunctionListUrl} from './../constants'
+import TimerFunctionList  from './../list/function-list';
+import TemplateFunctionList from './../list/template-list';
+import {getFunctionListUrl} from './../../constants'
 
 export const getInitialData  = () => (dispatch) => {
   dispatch({ type: 'LOADING_FUNCTION_LIST' });
@@ -13,6 +13,7 @@ export const getInitialData  = () => (dispatch) => {
 };
 
 // component
+// TODO: containerise as 'list' when monitoring route is added
 export const App = () => {
   return (
     <div className="m1">

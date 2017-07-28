@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
 
-import { App, getInitialData } from './components/app';
+import { App, getInitialData } from './components/containers/app';
 
 const middleware = [thunk];
 

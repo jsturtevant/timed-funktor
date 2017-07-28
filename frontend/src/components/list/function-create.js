@@ -1,32 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createFunctionUrl } from './../../constants';
-
-const handleSubmit = (e) => (dispatch) => {
-  console.log('submission');
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  const body = {
-    "templateName": formData.get('name'), 
-    "schedule": formData.get('schedule'),
-    "config": {
-      "key1": "value1",
-      "key2": 3
-    }
-  };
-
-  fetch(createFunctionUrl, {method: 'POST'})
-    .then(response => console.log(response))
-    .catch(reason => console.log(reason))
-};
+import { handleSubmit } from './../../actions/function-create';
+import { getShortName } from '../../utility';
 
 // component
 const CreateFunction = (state) => {
   const { createFormShowStyle, templateName, createNewFunction } = state; 
-  const templateShortName = templateName.split('/').pop();
+  const templateShortName = getShortName(templateName);
 
   return (
-   <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFunction(e)} className="border-silver border p3 sm-col-5">
+   <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFn(e)} className="border-silver border p3 sm-col-5">
      <label className="block mb1">Name</label>
      <input type="text" name="name" className="field block mb2 col-12 p1"/>
 
@@ -43,15 +26,16 @@ const CreateFunction = (state) => {
 };
 
 const mapStateToProps = (state) => {
+  const { createFormShowStyle, currentFunctionTemplateName } = state;
   return {
-    createFormShowStyle: state.createFormShowStyle,
-    templateName: state.currentFunctionTemplateName
+    createFormShowStyle,
+    templateName: currentFunctionTemplateName
   }
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    createNewFunction: (e) => dispatch(handleSubmit(e))
+    createNewFn: (e) => dispatch(handleSubmit(e))
   }
 }
 
