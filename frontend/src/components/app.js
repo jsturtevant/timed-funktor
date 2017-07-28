@@ -1,12 +1,12 @@
 import React from 'react';
 import TimerFunctionList  from './list/function-list';
 import TemplateFunctionList from './list/template-list';
+import {getFunctionListUrl} from './../constants'
 
 export const getInitialData  = () => (dispatch) => {
   dispatch({ type: 'LOADING_FUNCTION_LIST' });
   dispatch({ type: 'LOADING_TEMPLATE_LIST' });
 
-  const getFunctionListUrl = 'http://localhost:7071/api/functions';
   return fetch(getFunctionListUrl)
     .then(response => response.json())
     .then(functionList => dispatch({ type: 'RECEIVE_FUNCTION_LIST', functionList }));
@@ -15,13 +15,18 @@ export const getInitialData  = () => (dispatch) => {
 // component
 export const App = () => {
   return (
-    <div>
+    <div className="m1">
       <h1>Timed Funktors App</h1>
-      <h2>Functions</h2>
-      <TimerFunctionList  />
 
-      <h2>Templates</h2>
-      <TemplateFunctionList />
+      <div className="mb4 mt3">
+        <h2>Functions</h2>
+        <TimerFunctionList  />
+      </div>
+      
+      <div>
+        <h2>Templates</h2>
+        <TemplateFunctionList />
+      </div>
     </div>
   )
 };

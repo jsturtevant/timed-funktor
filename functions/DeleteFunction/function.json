@@ -4,8 +4,12 @@
     {
       "authLevel": "function",
       "type": "httpTrigger",
+      "route": "functions/{funcName}",
       "direction": "in",
-      "name": "req"
+      "name": "req",
+      "methods": [
+        "delete", "options"
+      ]
     },
     {
       "type": "http",
