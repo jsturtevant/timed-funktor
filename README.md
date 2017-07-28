@@ -62,6 +62,27 @@ Enter the following credentials in `local.settings.json`:
 - `func azure functionapp fetch-app-settings <your func name>`
 - `func host start`
 
+# Building and running the frontend
+
+The frontend runs on Webpack bundling. There are some npm scripts you can run while developing.
+
+To build:
+
+1. `cd frontend`
+2. `npm install`
+3. `npm run build`
+
+If you'd like to actively develop the frontend, use `npm run watch` instead, which will recompile all javascript every time you make a change in any frontend javascript file.
+
+In an additional terminal pane / window / tab, run a local server instance to serve the index.html file and the assets. I use `http-server` as it's quick to run, but python's `SimpleHTTPServer` will also do if you prefer that.
+
+To use `http-server`:
+
+1. `npm install -g http-server`
+2. `cd frontend`
+3. `http-server`
+4. Open a browser and navigate to the url output in the terminal after running `http-server` and you should see the app running.
+
 # Build and Test
 
 # Contribute

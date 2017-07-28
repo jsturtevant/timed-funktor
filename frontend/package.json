@@ -20,6 +20,7 @@
     "webpack": "^3.4.0"
   },
   "dependencies": {
+    "cronstrue": "^0.10.9",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",

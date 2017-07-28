@@ -45,7 +45,10 @@ module.exports = function (context, req, functorTemplate) {
 
       context.res = {
         headers: {
-          'Content-Type': 'application/json'
+          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Origin": '*',
+          "Access-Control-Allow-Methods": "POST",
+         'Content-Type': 'application/json'
         },
         status: 202,
         body: func
