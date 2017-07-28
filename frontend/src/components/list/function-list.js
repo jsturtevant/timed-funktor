@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { LoadingMessage } from '../common';
-import { deleteFunctionUrl } from './../../constants'
+import { deleteFunctionUrl } from './../../constants';
+import cronstrue from 'cronstrue';
 
 const filterByTimerType = (functionList) => {
   return functionList.filter(func => {
@@ -41,13 +42,14 @@ const timerFunctions = (functionList, deleteFn) => {
       const { name } = func;
       const shortname = name.split('/').pop();
       const schedule = getTimerFunctionSchedule(func);
+      const humanSchedule = cronstrue.toString(schedule).toLowerCase();
 
       return (
         <li className="pl1 pr1 pt2 pb2 border-bottom border-silver" key={shortname}>
           <button onClick={() => deleteFn(name)} aria-label="delete" className="rounded mr1">x</button>
           {shortname}
           <span className="right">
-            <span className="mr3"> {schedule}</span>
+            <span className="mr3 italic"> {humanSchedule}</span>
             <button className="border-green bg-green bg-lighten-4 pr2 pl2 mr1 rounded">start</button>
             <button className="border-yellow bg-yellow bg-lighten-4 pr2 pl2 mr1 rounded">stop</button>
           </span>
