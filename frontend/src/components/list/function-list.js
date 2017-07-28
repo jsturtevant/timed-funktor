@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { LoadingMessage } from '../common';
-import { deleteFunctionUrl } from './../../constants';
+import { deleteFunctionUrl, enableFunctionUrl, disableFunctionUrl } from './../../constants';
 import cronstrue from 'cronstrue';
 
 const filterByTimerType = (functionList) => {
@@ -22,6 +22,49 @@ const getTimerFunctionSchedule = (func) => {
   return timerBinding.pop().schedule;
 };
 
+const startFunction = (funcName) => (dispatch, getState) => {
+  const shortname = funcName.split('/').pop();
+  console.log(shortname);
+
+  fetch(enableFunctionUrl, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: {
+      funcName: shortname
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      dispatch({ type: "START_FUNCTION", name: funcName});
+    }
+  });
+
+};
+
+const stopFunction = (funcName) => (dispatch, getState) => {
+  const shortname = funcName.split('/').pop();
+
+  console.log(shortname);
+  fetch(disableFunctionUrl, {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: {
+      funcName: shortname
+    }
+  })
+  .then(response => {
+    if (response.ok) {
+      dispatch({ type: "STOP_FUNCTION", name: funcName});
+    }
+  });
+
+};
+
+
 const deleteFunction = (funcName) => (dispatch, getState) => {
   console.log(dispatch, getState);
   const shortname = funcName.split('/').pop();
@@ -30,12 +73,12 @@ const deleteFunction = (funcName) => (dispatch, getState) => {
   })
     .then(response => {
       if (response.ok) {
-        dispatch({ type: "DELETE_FUNCTION", name: funcName })
+        dispatch({ type: "DELETE_FUNCTION", funcName })
       }
     });
 }
 
-const timerFunctions = (functionList, deleteFn) => {
+const timerFunctions = (functionList, deleteFn, startFn, stopFn) => {
   return filterByTimerType(functionList)
     .filter(func => func.name.split('/').pop().indexOf('template') !== 0)
     .map(func => {
@@ -43,6 +86,12 @@ const timerFunctions = (functionList, deleteFn) => {
       const shortname = name.split('/').pop();
       const schedule = getTimerFunctionSchedule(func);
       const humanSchedule = cronstrue.toString(schedule).toLowerCase();
+      const disabled = func.properties.config.disabled;
+      const enabledClassName = disabled ? "bg-silver" : "bg-yellow";
+      const disabledClassName = disabled ? "bg-green" : "bg-silver";
+
+      const startButtonClassName = "border-green bg-lighten-4 pl2 pr2 mr1 rounded " + disabledClassName;
+      const stopButtonClassName = "border-yellow bg-lighten-4 pl2 pr2 mr1 rounded " + enabledClassName;
 
       return (
         <li className="pl1 pr1 pt2 pb2 border-bottom border-silver" key={shortname}>
@@ -50,8 +99,9 @@ const timerFunctions = (functionList, deleteFn) => {
           {shortname}
           <span className="right">
             <span className="mr3 italic h5"> {humanSchedule}</span>
-            <button className="border-green bg-green bg-lighten-4 pr2 pl2 mr1 rounded">start</button>
-            <button className="border-yellow bg-yellow bg-lighten-4 pr2 pl2 mr1 rounded">stop</button>
+
+            <button className={startButtonClassName} disabled={!disabled} onClick={() => startFn(shortname)}>start</button>
+            <button className={stopButtonClassName} disabled={disabled} onClick={() => stopFn(shortname)}>stop</button>
           </span>
         </li>
       )
@@ -61,8 +111,8 @@ const timerFunctions = (functionList, deleteFn) => {
 // component
 const TimerFunctionList = (state) => {
   console.log('state:', state);
-  const { functionList, loadingFunctionList, deleteFn } = state;
-  const children = timerFunctions(functionList, deleteFn);
+  const { functionList, loadingFunctionList, deleteFn, startFn, stopFn } = state;
+  const children = timerFunctions(functionList, deleteFn, startFn, stopFn);
 
   if (loadingFunctionList) return (<LoadingMessage />);
 
@@ -82,7 +132,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch =>{
   return {
-    deleteFn: (funcName) => dispatch(deleteFunction(funcName))
+    deleteFn: (funcName) => dispatch(deleteFunction(funcName)),
+    startFn: (funcName) => dispatch(startFunction(funcName)),
+    stopFn: (funcName) => dispatch(stopFunction(funcName))
   }
 }
 

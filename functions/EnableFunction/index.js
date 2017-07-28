@@ -30,8 +30,8 @@ module.exports = function (context, req) {
 
     const functee = "./../template/index.js";
     const schedule = "0 */1 * * * *";
-    // const name = req.body.funcName;
-    const name = 'HttpTriggerJS1';
+    const name = req.body.funcName;
+    //const name = 'HttpTriggerJS1';
 
     azFunc.enableFunction(name)
     .then(func => {
@@ -40,6 +40,9 @@ module.exports = function (context, req) {
 
       context.res = {
         headers: {
+          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Origin": '*',
+          "Access-Control-Allow-Methods": "POST",
           'Content-Type': 'application/json'
         },
         status: 202,

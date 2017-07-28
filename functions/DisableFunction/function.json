@@ -5,6 +5,10 @@
       "authLevel": "function",
       "type": "httpTrigger",
       "direction": "in",
+      "route": "functions/disable",
+      "methods": [
+        "post"
+      ],
       "name": "req"
     },
     {

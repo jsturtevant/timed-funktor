@@ -25,8 +25,8 @@ const templateFunctions = (functionList, showCreate) => {
         <li className="pl1 pr1 pt2 pb2 border-bottom border-silver" key={shortname}>
           {shortname}
           <span className="right">
-            <button className="pr2 pl2 mr1 rounded" onClick={() => onShowCode(func)}>show code</button>
-            <button className="pr2 pl2 mr1 rounded" onClick={() => showCreate(name)}>create</button>
+            <button className="pr2 pl2 mr1 rounded bg-aqua" onClick={() => onShowCode(func)}>show code</button>
+            <button className="pr2 pl2 mr1 rounded bg-aqua" onClick={() => showCreate(name)}>create</button>
           </span>
           <FunctionCode />
         </li>

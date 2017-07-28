@@ -21,6 +21,26 @@ export default (state = initialState, action) => {
     case 'SHOW_CREATE_FORM':
     console.log('show form reducer:', action);
       return Object.assign({}, state, { createFormShowStyle: 'block', currentFunctionTemplateName: action.name });
+    case 'START_FUNCTION':
+      console.log('start function reducer called');
+      let enabledFuncFunctionList = state.functionList.map(func => {
+        if (func.name === action.funcName) {
+          return Object.assign({}, func, {properties: {config: { disabled: false }}});
+        } else {
+          return func;
+        }
+      });
+      return Object.assign({}, state, functionList: enabledFuncFunctionList);
+    case 'STOP_FUNCTION':
+      console.log('stop function reducer called');
+      let disabledFuncFunctionList = state.functionList.map(func => {
+        if (func.name === action.funcName) {
+          return Object.assign({}, func, {properties: {config: { disabled: true }}});
+        } else {
+          return func;
+        }
+      });
+      return Object.assign({}, state, functionList: disabledFuncFunctionList);
     default:
       return state;
   }
