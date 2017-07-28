@@ -23,13 +23,15 @@ const handleSubmit = (e) => (dispatch) => {
 // component
 const CreateFunction = (state) => {
   const { createFormShowStyle, templateName, createNewFunction } = state; 
+  const templateShortName = templateName.split('/').pop();
+
   return (
    <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFunction(e)} className="border-silver border p3 sm-col-5">
      <label className="block mb1">Name</label>
      <input type="text" name="name" className="field block mb2 col-12 p1"/>
 
      <label className="block mb1">Template</label>
-     <input type="text" value={templateName} name="template" className="field block mb2 col-12 p1"/>
+     <input type="text" value={templateShortName} name="template" className="field block mb2 col-12 p1"/>
 
      <label className="block mb1">Schedule</label>
      <input type="text"  name="schedule" className="field block mb2 col-12 p1"/>
