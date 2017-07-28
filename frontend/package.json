@@ -9,7 +9,7 @@
     "watch": "webpack --progress --watch",
     "prod": "webpack -p"
   },
-  "author": "James Sturtevant & Suz Hintin",
+  "author": "James Sturtevant & Suz Hintin & Heather Shapiro",
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.24.1",

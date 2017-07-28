@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node_modules/.bin/tape *.test.js"
   },
-  "author": "James Sturtevant & Suz Hinton",
+  "author": "James Sturtevant & Suz Hinton & Heather Shapiro",
   "license": "MIT",
   "dependencies": {
     "azure-functions": "jsturtevant/azure-functions-node#errormessage",
