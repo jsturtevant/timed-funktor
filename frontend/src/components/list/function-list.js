@@ -49,7 +49,7 @@ const timerFunctions = (functionList, deleteFn) => {
           <button onClick={() => deleteFn(name)} aria-label="delete" className="rounded mr1">x</button>
           {shortname}
           <span className="right">
-            <span className="mr3 italic"> {humanSchedule}</span>
+            <span className="mr3 italic h5"> {humanSchedule}</span>
             <button className="border-green bg-green bg-lighten-4 pr2 pl2 mr1 rounded">start</button>
             <button className="border-yellow bg-yellow bg-lighten-4 pr2 pl2 mr1 rounded">stop</button>
           </span>
