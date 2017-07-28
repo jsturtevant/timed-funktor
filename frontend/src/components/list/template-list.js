@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { LoadingMessage } from '../common';
 import { FunctionCode } from './function-code';
-import { CreateFunction } from './function-create';
+import  CreateFunction  from './function-create';
 
 const fetchFunctionCode = (url) => {
   return fetch(url).then(response => response.text());
@@ -14,7 +14,7 @@ const onShowCode = (func) => {
     .then(text => console.log(text));
 };
 
-const templateFunctions = (functionList, showCreate, toggleShowCreate) => {
+const templateFunctions = (functionList, showCreate) => {
   return functionList
     .filter(func => func.name.split('/').pop().indexOf('template') === 0)
     .map(func => {
@@ -25,7 +25,7 @@ const templateFunctions = (functionList, showCreate, toggleShowCreate) => {
         <li key={shortname}>
           {shortname}
           <button onClick={() => onShowCode(func)}>show code</button>
-          <button onClick={() => showCreate(func.name, toggleShowCreate)}>create</button>
+          <button onClick={() => showCreate(name)}>create</button>
           <FunctionCode />
         </li>
       )
@@ -34,8 +34,8 @@ const templateFunctions = (functionList, showCreate, toggleShowCreate) => {
 
 // component
 const TemplateFunctionList = (state) => {
-  const { functionList, loadingTemplateList, showCreate, toggleShowStyle } = state;
-  const children = templateFunctions(functionList, showCreate, toggleShowCreate);
+  const { functionList, loadingTemplateList, showCreate } = state;
+  const children = templateFunctions(functionList, showCreate);
 
   if (loadingTemplateList) return (<LoadingMessage />);
 
@@ -58,10 +58,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    showCreate: (funcName, toggleShowCreate) => dispatch({
+    showCreate: (funcName, createFormShowStyle) => dispatch({
       type: "SHOW_CREATE_FORM",
       name: funcName,
-      show: !toggleShowCreate
     })
   }
 }

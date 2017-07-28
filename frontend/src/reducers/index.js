@@ -1,9 +1,8 @@
 const initialState = {
   functionList: [],
-  templateList: [],
   loadingFunctionList: false,
   loadingTemplateList: false,
-  toggleShowStyle: "none",
+  createFormShowStyle: "none",
   currentFunctionTemplateName: ""
 };
 
@@ -20,7 +19,8 @@ export default (state = initialState, action) => {
       let newFunctionList = state.functionList.filter(x => x.name != action.name);
       return Object.assign({}, state, { functionList: newFunctionList });
     case 'SHOW_CREATE_FORM':
-      return Object.assign({}, state, { toggleShowStyle: action.show ? "block" : "none" , currentFunctionTemplateName: action.name });
+    console.log('show form reducer:', action);
+      return Object.assign({}, state, { createFormShowStyle: 'block', currentFunctionTemplateName: action.name });
     default:
       return state;
   }

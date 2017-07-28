@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // component
-export const CreateFunction = ({state}) => {
+const CreateFunction = (state) => {
+  const { createFormShowStyle, templateName, createNewFunction } = state; 
   return (
-   <form style={{display: state.toggleShowStyle}}>
+   <form style={{display: createFormShowStyle}} onSubmit={(e) => createNewFunction(e)}>
      <label>Name</label>
      <input type="text" value="name"/>
 
@@ -18,3 +20,14 @@ export const CreateFunction = ({state}) => {
      </form>
   )
 };
+
+const mapStateToProps = (state) => {
+  return {
+    createFormShowStyle: state.createFormShowStyle,
+    templateName: state.currentFunctionTemplateName
+  }
+};
+
+export default connect(
+  mapStateToProps,
+)(CreateFunction)
