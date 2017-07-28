@@ -14,10 +14,10 @@ module.exports = function (context, req) {
     // const name = req.body.funcName;
     const name = 'HttpTriggerJS1';
 
-    azFunc.enableFunction(name)
+    azFunc.getSecret(name)
     .then(func => {
       key = func.key;
-      context.log(trigger);
+      context.log(key);
 
       context.res = {
         headers: {
