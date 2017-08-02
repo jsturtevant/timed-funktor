@@ -7,40 +7,11 @@ const handlebars = require('handlebars');
 module.exports = function (context, req, functorTemplate) {
   const azFunc = helpers.functionFactory();
 
-  if (!req.body) {
-    context.res = { status: 400, body: 'must pass body' };
-    context.done();
-    return;
-  }
-
-  if (!req.body.funcName || validator.isEmpty(req.body.funcName)) {
-    context.log("Invalid response");
-    context.res = { status: 400, body: 'must pass funcName' };
-    context.done();
-    return;
-  }
-
-  if (!req.body.templateName || validator.isEmpty(req.body.templateName)) {
-    context.log("Invalid response");
-    context.res = { status: 400, body: 'must pass templateName' };
-    context.done();
-    return;
-  }
-
-  if (!req.body.schedule || validator.isEmpty(req.body.schedule)) {
-    context.log("Invalid response");
-    context.res = { status: 400, body: 'must pass schedule' };
-    context.done();
-    return;
-  }
-
-  try {
-    var interval = parser.parseExpression(req.body.schedule);
-  } catch (err) {
-    context.log("Invalid response");
-    context.res = { status: 400, body: 'must be valid cron schedule' };
-    context.done();
-    return;
+  const errorMessage =  validate(req.body);
+  if(errorMessage){
+      context.res = errorMessage;
+      context.done();
+      return;
   }
 
   const functionScript = createFunctionScript(req.body.templateName, functorTemplate, req.body.config);
@@ -50,16 +21,7 @@ module.exports = function (context, req, functorTemplate) {
     .then(func => {
       context.log(func);
 
-      context.res = {
-        headers: {
-          "Access-Control-Allow-Credentials": true,
-          "Access-Control-Allow-Origin": '*',
-          "Access-Control-Allow-Methods": "POST",
-          'Content-Type': 'application/json'
-        },
-        status: 202,
-        body: func
-      };
+      context.res.status(202).json(func);
 
       context.done();
     })
@@ -93,4 +55,29 @@ function createFunctionScript(templateName, functorTemplate, config = {}) {
   const template = handlebars.compile(functorTemplate);
   const functee = `./../${templateName}`;
   return template({ templateName: functee, config: JSON.stringify(config) });
+}
+
+function validate(body){
+  if (!body) {
+    return { status: 400, body: 'must pass body' };
+  }
+
+  if (!body.funcName || validator.isEmpty(body.funcName)) {
+    return { status: 400, body: 'must pass funcName' };
+  }
+
+  if (!body.templateName || validator.isEmpty(body.templateName)) {
+    return { status: 400, body: 'must pass templateName' };
+  }
+
+  if (!body.schedule || validator.isEmpty(body.schedule)) {
+    return { status: 400, body: 'must pass schedule' };
+  }
+
+  try {
+    var interval = parser.parseExpression(body.schedule);
+  } catch (err) {
+    return { status: 400, body: 'must be valid cron schedule' };
+  }
+  return;
 }
