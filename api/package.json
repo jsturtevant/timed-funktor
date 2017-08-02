@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node_modules/.bin/tape test\\*.test.js"
   },
   "author": "James Sturtevant & Suz Hinton & Heather Shapiro",
   "license": "MIT",
@@ -13,5 +13,10 @@
     "cron-parser": "^2.4.1",
     "handlebars": "^4.0.10",
     "validator": "^8.0.0"
+  },
+  "devDependencies": {
+    "azure-functions-node-harness": "..\\..\\azure-functions-node-harness",
+    "tape": "^4.6.3",
+    "testdouble": "^3.2.1"
   }
 }

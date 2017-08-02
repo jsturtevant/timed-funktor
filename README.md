@@ -41,7 +41,7 @@ Your output will look like:
 }
 ```
 
-You'll need to use that output to set your function app's application settings in order to connect to your desired function app. You can find an example settings file in `functions/example.settings.json`. 
+You'll need to use that output to set your function app's application settings in order to connect to your desired function app. You can find an example settings file in `api/functions/example.settings.json`. 
 
 You can make a copy of ```example.settings.json``` to ```local.settings.json``` by:
 
@@ -66,10 +66,15 @@ az storage container create --name funktor
 az storage blob upload --container-name funktor --file './templates/functorConfigTemplate.txt' --name functorConfigTemplate.txt
 ```
 
-### Run the test sample
-- `cd test\sample`
-- `func azure functionapp fetch-app-settings <your func name>`
-- `func host start`
+# Running API
+To start the backend api locally:
+
+1. `cd api`
+2. `npm install`
+3. `npm test` (all tests should pass)
+4. `func host start`
+
+Now you can make requests to the endpoints (ex. `http://localhost:8080/api/functions`).  You can also start the frontend and use the UI.
 
 # Building and running the frontend
 
@@ -92,6 +97,9 @@ To use `http-server`:
 3. `http-server`
 4. Open a browser and navigate to the url output in the terminal after running `http-server` and you should see the app running.
 
-# Build and Test
+### Run the test sample
+This is the prototype to see if it would work before we began coding.  You do not need to do anything with this folder but instructions to run it are here just incase.
 
-# Contribute
+- `cd api\test\sample`
+- `func azure functionapp fetch-app-settings <your func name>`
+- `func host start`

@@ -5,7 +5,7 @@ var funcHarness = require('azure-functions-node-harness');
 var helpers = td.replace('../functions/helpers/index.js');
 
 test('Create functions Tests', function (group) {
-  var funcToTest = funcHarness('CreateFunction', { dirname: '../functions' });
+  var funcToTest = funcHarness('CreateFunction', {dirname: "functions"});
 
   const deployFunc = td.function();
   td.when(helpers.functionFactory()).thenReturn({ deployFunction: deployFunc });
