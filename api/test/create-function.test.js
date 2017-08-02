@@ -24,6 +24,36 @@ test('Create functions Tests', function (group) {
     });
   });
 
+  group.test('if funcName is empty then return status 400', function (t) {
+    t.plan(2);
+
+    funcToTest.invokeHttpTrigger({
+      reqBody: reqBody({
+        "funcName": ""
+      })
+    }).then(context => {
+      t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass funcName");
+    }).catch(err => {
+      t.fail(`something went wrong: ${err}`);
+    });
+  });
+
+  group.test('if funcName is null then return status 400', function (t) {
+    t.plan(2);
+
+    funcToTest.invokeHttpTrigger({
+      reqBody: reqBody({
+        "funcName": null
+      })
+    }).then(context => {
+      t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass funcName");
+    }).catch(err => {
+      t.fail(`something went wrong: ${err}`);
+    });
+  });
+
   group.test('if templateName is empty then return status 400', function (t) {
     t.plan(2);
 
@@ -104,7 +134,7 @@ test('Create functions Tests', function (group) {
       }
     ).then(context => {
       t.isNotEqual(context.res.status, 400)
-      td.verify(deployFunc(`sample`,
+      td.verify(deployFunc(reqBody().funcName,
         `module.exports = require("./../template-sample")`,
         getBindingResult()
       ));
@@ -130,7 +160,7 @@ test('Create functions Tests', function (group) {
       }
     ).then(context => {
       t.isNotEqual(context.res.status, 400)
-      td.verify(deployFunc(`sample`,
+      td.verify(deployFunc(`name`,
         getResult("./../template-sample", config),
         getBindingResult()
       )
@@ -152,7 +182,7 @@ test('Create functions Tests', function (group) {
       }
     ).then(context => {
       t.isNotEqual(context.res.status, 400)
-      td.verify(deployFunc(`sample`,
+      td.verify(deployFunc(`name`,
         getResult("./../template-sample", {}),
         getBindingResult()
       ));
@@ -182,7 +212,7 @@ functee(context, myTimer, ${JSON.stringify(config)});
 function getBindingResult() {
   return [
     {
-      "name": "sample",
+      "name": "name",
       "type": "timerTrigger",
       "direction": "in",
       "schedule": "0 */2 * * * *"
@@ -192,8 +222,9 @@ function getBindingResult() {
 
 const reqBody = params => {
   const valid = {
-    "templateName": "sample",
-    "schedule": "0 */2 * * * *"
+    "templateName": "template-sample",
+    "schedule": "0 */2 * * * *",
+    "funcName": "name"
   }
 
   return Object.assign({}, valid, params)

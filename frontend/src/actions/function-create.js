@@ -7,7 +7,8 @@ export const handleSubmit = (e) => (dispatch) => {
 
   // some of this request body is hard coded for now
   const body = {
-    templateName: formData.get('name'), 
+    funcName: formData.get('name'),
+    templateName: formData.get('template'), 
     schedule: formData.get('schedule'),
     config: {
       key1: 'value1',
