@@ -5,13 +5,13 @@ var funcHarness = require('azure-functions-node-harness');
 var helpers = td.replace('../functions/helpers/index.js');
 
 test('Create functions Tests', function (group) {
-  var funcToTest = funcHarness('CreateFunction', {dirname: "functions"});
+  var funcToTest = funcHarness('CreateFunction', { dirname: "functions" });
 
   const deployFunc = td.function();
   td.when(helpers.functionFactory()).thenReturn({ deployFunction: deployFunc });
   td.when(deployFunc(td.matchers.anything(), td.matchers.anything(), td.matchers.anything())).thenResolve({});
 
-  group.test('if templateName is empty then return status 400', function (t) {
+  group.test('if req body is empty then return status 400', function (t) {
     t.plan(2);
 
     funcToTest.invokeHttpTrigger({
@@ -25,73 +25,69 @@ test('Create functions Tests', function (group) {
   });
 
   group.test('if templateName is empty then return status 400', function (t) {
-    t.plan(1);
+    t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
+      reqBody: reqBody({
         "templateName": ""
-      }
+      })
     }).then(context => {
       t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass templateName");
     }).catch(err => {
       t.fail(`something went wrong: ${err}`);
     });
   });
 
   group.test('if templateName is null then return status 400', function (t) {
-    t.plan(1);
+    t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": null
-      }
+      reqBody: reqBody({"templateName": null })
     }).then(context => {
       t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass templateName");
     }).catch(err => {
       t.fail(`something went wrong: ${err}`);
     });
   });
 
   group.test('if scheudle is empty return 400.', function (t) {
-    t.plan(1);
+    t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
-        "schedule": ""
-      }
+      reqBody: reqBody({"schedule": ""})
     }).then(context => {
       t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass schedule");
     }).catch(err => {
       t.fail(`something went wrong: ${err}`);
     });
   });
 
-  group.test('if scheudle is empty return 400.', function (t) {
-    t.plan(1);
+  group.test('if scheudle is null return 400.', function (t) {
+    t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
-        "schedule": null
-      }
+      reqBody: reqBody({"schedule": null })
     }).then(context => {
       t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must pass schedule");
     }).catch(err => {
       t.fail(`something went wrong: ${err}`);
     });
   });
 
   group.test('if scheudle not valid cron string 400', function (t) {
-    t.plan(1);
+    t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
+      reqBody: reqBody({
         "schedule": "this is not valid cron string"
-      }
+      })
     }).then(context => {
       t.equal(context.res.status, 400);
+      t.equal(context.res.body, "must be valid cron schedule");
     }).catch(err => {
       t.fail(`something went wrong: ${err}`);
     });
@@ -101,10 +97,7 @@ test('Create functions Tests', function (group) {
     t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
-        "schedule": "0 */2 * * * *"
-      }
+      reqBody: reqBody()
     },
       {
         functorTemplate: 'module.exports = require("{{templateName}}")'
@@ -130,11 +123,7 @@ test('Create functions Tests', function (group) {
     };
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
-        "schedule": "0 */2 * * * *",
-        "config": config
-      }
+      reqBody: reqBody({"config": config})
     },
       {
         functorTemplate: getCofigTemplate()
@@ -156,10 +145,7 @@ test('Create functions Tests', function (group) {
     t.plan(2);
 
     funcToTest.invokeHttpTrigger({
-      reqBody: {
-        "templateName": "sample",
-        "schedule": "0 */2 * * * *"
-      }
+      reqBody: reqBody()
     },
       {
         functorTemplate: getCofigTemplate()
@@ -168,7 +154,7 @@ test('Create functions Tests', function (group) {
       t.isNotEqual(context.res.status, 400)
       td.verify(deployFunc(`sample`,
         getResult("./../template-sample", {}),
-         getBindingResult()
+        getBindingResult()
       ));
       t.equal(context.res.status, 202);
     }).catch(err => {
@@ -202,4 +188,13 @@ function getBindingResult() {
       "schedule": "0 */2 * * * *"
     }
   ];
+}
+
+const reqBody = params => {
+  const valid = {
+    "templateName": "sample",
+    "schedule": "0 */2 * * * *"
+  }
+
+  return Object.assign({}, valid, params)
 }

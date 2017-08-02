@@ -15,7 +15,7 @@ module.exports = function (context, req, functorTemplate) {
 
   if (!req.body.templateName || validator.isEmpty(req.body.templateName)){
     context.log("Invalid response");
-    context.res = { status: 400, body: 'must pass template' }; 
+    context.res = { status: 400, body: 'must pass templateName' }; 
     context.done();
     return;
   }
@@ -31,7 +31,7 @@ module.exports = function (context, req, functorTemplate) {
     var interval = parser.parseExpression(req.body.schedule);
   }catch(err){
     context.log("Invalid response");
-    context.res = { status: 400, body: 'must valid cron schedule' }; 
+    context.res = { status: 400, body: 'must be valid cron schedule' }; 
     context.done();
     return;
   }
