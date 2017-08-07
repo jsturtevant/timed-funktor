@@ -11,9 +11,9 @@
       "type": "node",
       "request": "launch",
       "name": "Run Tests",
-      "program": "${workspaceRoot}\\test\\test-runner.js",
+      "program": "${workspaceRoot}\\api\\test\\test-runner.js",
       "args": [
-            "./test" //run all the tests
+            "./api/test" //run all the tests
       ]
       
     }
